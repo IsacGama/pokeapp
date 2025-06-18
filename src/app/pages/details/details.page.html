@@ -1,13 +1,65 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>details</ion-title>
+<ion-header>
+  <ion-toolbar color="danger" class="details-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" class="back-button"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="details-title">{{ pokemon?.name | titlecase }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">details</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content *ngIf="!loading" class="details-content">
+  <div class="pokemon-card">
+    <div class="pokemon-header">
+      <img [src]="getPokemonImage()" alt="{{ pokemon.name }}" class="pokemon-image"/>
+      <h2 class="pokemon-name">#{{ pokemon.id | number:'3.0-0' }} - {{ pokemon.name | titlecase }}</h2>
+    </div>
+
+    <div class="pokemon-types">
+      <span *ngFor="let type of pokemon.types" class="type-badge" [style.background]="getTypeColor(type.type.name)">
+        {{ type.type.name | titlecase }}
+      </span>
+    </div>
+
+    <div class="info-section">
+      <h3 class="section-title">Informações Básicas</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <ion-icon name="resize-outline" class="info-icon"></ion-icon>
+          <div class="info-value">{{ pokemon.height / 10 }} m</div>
+          <div class="info-label">Altura</div>
+        </div>
+        <div class="info-item">
+          <ion-icon name="speedometer-outline" class="info-icon"></ion-icon>
+          <div class="info-value">{{ pokemon.weight / 10 }} kg</div>
+          <div class="info-label">Peso</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-section">
+      <h3 class="section-title">Habilidades</h3>
+      <div class="abilities">
+        <span *ngFor="let ability of abilitiesWithTypes" class="ability" 
+              [style.background]="getTypeColor(ability.type)">
+          {{ ability.name | titlecase }}
+        </span>
+      </div>
+    </div>
+
+    <div class="info-section">
+      <h3 class="section-title">Estatísticas</h3>
+      <div class="stats-container">
+        <div *ngFor="let stat of pokemon.stats" class="stat-item">
+          <div class="stat-info">
+            <span class="stat-name">{{ formatStatName(stat.stat.name) }}</span>
+            <span class="stat-value">{{ stat.base_stat }}</span>
+          </div>
+          <div class="stat-bar-container">
+            <div class="stat-bar" [style.width.%]="(stat.base_stat / 255) * 100" 
+                 [style.background]="getStatColor(stat.base_stat)"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </ion-content>

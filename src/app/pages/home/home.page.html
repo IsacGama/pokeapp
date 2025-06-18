@@ -30,7 +30,7 @@
 
   <!-- Grid de Pokémons -->
   <div class="pokemon-grid">
-    <div class="pokemon-card" *ngFor="let pokemon of displayedPokemons">
+    <div class="pokemon-card" *ngFor="let pokemon of displayedPokemons" [routerLink]="['/details', pokemon.id]">
       <img
         [defaultImage]="'assets/img/placeholder.png'"
         [lazyLoad]="getPokemonImage(pokemon)"

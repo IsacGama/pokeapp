@@ -1,0 +1,185 @@
+.details-content {
+  --background: #f5f5f5;
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  color: #333; /* Cor padrão do texto */
+}
+
+.details-toolbar {
+  --background: var(--ion-color-danger);
+  --color: white;
+  
+  .back-button {
+    color: white;
+  }
+  
+  .details-title {
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+}
+
+.pokemon-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.pokemon-header {
+  text-align: center;
+  margin-bottom: 16px;
+  
+  .pokemon-image {
+    width: 180px;
+    height: 180px;
+    object-fit: contain;
+    margin: 0 auto;
+  }
+  
+  .pokemon-name {
+    font-size: 1.5rem;
+    color: #333;
+    margin: 8px 0;
+    font-weight: bold;
+  }
+}
+
+.pokemon-types {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  
+  .type-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    color: white;
+    font-weight: bold;
+    font-size: 0.9rem;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  }
+}
+
+.info-section {
+  margin-bottom: 24px;
+  
+  .section-title {
+    font-size: 1.2rem;
+    color: var(--ion-color-danger);
+    margin-bottom: 12px;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 6px;
+  }
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+  
+  .info-item {
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 0 0 24px;
+    text-align: center;
+    color: #444; /* Cor mais escura para melhor contraste */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    
+    .info-icon {
+      font-size: 1.5rem;
+      color: var(--ion-color-danger);
+    }
+    
+    .info-value {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #222; /* Texto mais escuro para valores */
+    }
+    
+    .info-label {
+      font-size: 0.9rem; /* Aumentei um pouco o tamanho */
+      color: #555; /* Cor mais escura */
+      font-weight: 500; /* Peso médio para melhor legibilidade */
+    }
+  }
+}
+
+/* Estilo para as habilidades */
+.abilities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  
+  .ability {
+    background: #e8e8e8;
+    padding: 8px 14px; /* Aumentei o padding */
+    border-radius: 20px;
+    font-size: 0.95rem;
+    color: #333; /* Cor mais escura */
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+}
+
+/* Adicione esta classe para informações básicas */
+.basic-info {
+  p {
+    color: #444;
+    font-size: 1rem;
+    
+    strong {
+      color: #222;
+      font-weight: 600;
+    }
+  }
+}
+
+.stats-container {
+  .stat-item {
+    margin-bottom: 10px;
+    
+    .stat-info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+      
+      .stat-name {
+        font-weight: 500;
+        text-transform: capitalize;
+      }
+      
+      .stat-value {
+        font-weight: bold;
+        color: var(--ion-color-danger);
+      }
+    }
+    
+    .stat-bar-container {
+      height: 8px;
+      background: #e0e0e0;
+      border-radius: 4px;
+      overflow: hidden;
+      
+      .stat-bar {
+        height: 100%;
+        border-radius: 4px;
+        transition: width 0.5s ease;
+      }
+    }
+  }
+}
+
+ion-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+}

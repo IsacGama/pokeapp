@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { RouterModule } from '@angular/router';
 
 interface PokemonListItem {
   name: string;
@@ -15,7 +16,7 @@ interface PokemonListItem {
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
-  imports: [CommonModule, IonicModule, FormsModule, LazyLoadImageModule],
+  imports: [CommonModule, IonicModule, FormsModule, LazyLoadImageModule, RouterModule],
 })
 export class HomePage implements OnInit {
   pokemons: any[] = [];

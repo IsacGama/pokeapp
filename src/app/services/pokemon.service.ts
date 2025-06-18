@@ -37,4 +37,8 @@ export class PokemonService {
     const requests = pokemons.map(p => this.getPokemonDetails(p.name));
     return forkJoin(requests);
   }
+
+  getAbilityDetails(abilityName: string): Observable<any> {
+    return this.http.get(`https://pokeapi.co/api/v2/ability/${abilityName}/`);
+  }
 }
