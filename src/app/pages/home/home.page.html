@@ -31,12 +31,14 @@
 
   <!-- Grid de Pokémons -->
   <div class="pokemon-grid">
-    <ion-card class="pokemon-card" *ngFor="let pokemon of displayedPokemons" [routerLink]="['/details', pokemon.id]">
-      <img [src]="getPokemonImage(pokemon)" alt="{{ pokemon.name }}" class="pokemon-image"/>
-      <ion-card-content>
-        <div class="pokemon-number">#{{ pokemon.id | number:'3.0-0' }}</div>
-        <div class="pokemon-name">{{ pokemon.name | titlecase }}</div>
-      </ion-card-content>
+    <ion-card class="pokemon-card" *ngFor="let pokemon of displayedPokemons">
+      <ion-router-link [routerLink]="['/details', pokemon.id]" routerDirection="forward">
+        <img [src]="getPokemonImage(pokemon)" alt="{{ pokemon.name }}" class="pokemon-image"/>
+        <ion-card-content>
+          <div class="pokemon-number">#{{ pokemon.id | number:'3.0-0' }}</div>
+          <div class="pokemon-name">{{ pokemon.name | titlecase }}</div>
+        </ion-card-content>
+      </ion-router-link>
     </ion-card>
   </div>
 

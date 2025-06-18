@@ -1,19 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { PokemonService } from 'src/app/services/pokemon.service';
-import { Observable, forkJoin } from 'rxjs';
+import { Observable, forkJoin, from } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
-import { RouterModule } from '@angular/router';
-import { 
-  IonContent, 
-  IonHeader, 
-  IonTitle, 
-  IonToolbar,
-  IonSegment,
-  IonSegmentButton,
-  IonCardContent,
-} from '@ionic/angular/standalone';
+import { RouterLink } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
+import { IonSegment, IonSegmentButton, IonSearchbar} from '@ionic/angular/standalone';
 
 interface PokemonListItem {
   name: string;
@@ -28,14 +21,11 @@ interface PokemonListItem {
     CommonModule, 
     FormsModule, 
     LazyLoadImageModule, 
-    RouterModule,
-    IonContent, 
-    IonHeader, 
-    IonTitle, 
-    IonToolbar,
+    RouterLink,
+    IonicModule,
     IonSegment,
     IonSegmentButton,
-    IonCardContent,
+    IonSearchbar
   ],
 })
 export class HomePage implements OnInit {
