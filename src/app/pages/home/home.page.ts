@@ -2,10 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { PokemonService } from 'src/app/services/pokemon.service';
 import { Observable, forkJoin } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { RouterModule } from '@angular/router';
+import { 
+  IonContent, 
+  IonHeader, 
+  IonTitle, 
+  IonToolbar,
+  IonSegment,
+  IonSegmentButton,
+  IonCardContent,
+} from '@ionic/angular/standalone';
 
 interface PokemonListItem {
   name: string;
@@ -16,7 +24,19 @@ interface PokemonListItem {
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
-  imports: [CommonModule, IonicModule, FormsModule, LazyLoadImageModule, RouterModule],
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    LazyLoadImageModule, 
+    RouterModule,
+    IonContent, 
+    IonHeader, 
+    IonTitle, 
+    IonToolbar,
+    IonSegment,
+    IonSegmentButton,
+    IonCardContent,
+  ],
 })
 export class HomePage implements OnInit {
   pokemons: any[] = [];

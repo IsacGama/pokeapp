@@ -19,6 +19,7 @@
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "docs",
+            "baseHref": "/",
             "index": "src/index.html",
             "polyfills": [
               "src/polyfills.ts"
@@ -32,7 +33,12 @@
                 "output": "assets"
               }
             ],
-            "styles": ["src/global.scss", "src/theme/variables.scss"],
+            "styles": [
+                        "src/app/pages/home/home.page.scss",
+                        "src/app/pages/details/details.page.scss",
+                        "src/global.scss",
+                        "src/theme/variables.scss"
+                      ],
             "scripts": [],
             "browser": "src/main.ts"
           },

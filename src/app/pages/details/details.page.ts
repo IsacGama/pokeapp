@@ -2,14 +2,31 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PokemonService } from 'src/app/services/pokemon.service';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
+import { 
+  IonContent, 
+  IonHeader, 
+  IonTitle, 
+  IonToolbar,
+  IonButtons,
+  IonBackButton,
+  IonIcon,
+} from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-details',
   templateUrl: './details.page.html',
   styleUrls: ['./details.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule]
+  imports: [
+    CommonModule, 
+    IonContent,
+    IonHeader,
+    IonTitle,
+    IonToolbar,
+    IonButtons,
+    IonBackButton,
+    IonIcon,
+  ]
 })
 export class DetailsPage implements OnInit {
   pokemon: any;

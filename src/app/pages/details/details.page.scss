@@ -27,6 +27,8 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   padding: 20px;
   margin-bottom: 20px;
+  justify-content: center;
+  align-items: center;
 }
 
 .pokemon-header {
@@ -34,8 +36,8 @@
   margin-bottom: 16px;
   
   .pokemon-image {
-    width: 180px;
-    height: 180px;
+    width: 250px;
+    height: 250px;
     object-fit: contain;
     margin: 0 auto;
   }
