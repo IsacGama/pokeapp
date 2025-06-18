@@ -6,7 +6,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --configuration production",
+    "build": "ionic build --prod --base-href ./",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint"
