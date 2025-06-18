@@ -1,0 +1,107 @@
+ion-content::part(scroll) {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #e63946 #ffffff; /* Thumb / Track */
+
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: linear-gradient(to bottom, #ffffff 45%, #000000 45%, #000000 55%, #ffffff 55%);
+    border-radius: 10px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #ff0000 50%, #cc0000 100%);
+    border-radius: 10px;
+    border: 2px solid #ffffff;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, #cc0000 50%, #990000 100%);
+  }
+}
+
+.pokedex-content {
+  background: linear-gradient(to bottom, #ff0000, #ffffff);
+  padding: 10px;
+}
+
+.pokemon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+  margin: 10px 15px 0 15px;
+}
+
+.pokemon-card {
+  background: white;
+  border-radius: 8px;
+  text-align: center;
+  padding: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.pokemon-card img {
+  width: 100px;
+  height: 100px;
+}
+
+.pokemon-number {
+  font-weight: bold;
+  color: #555;
+  margin-top: 4px;
+}
+
+.pokemon-name {
+  font-size: 14px;
+  color: #333;
+}
+
+.div-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #ff0000;
+  color: #fefefe;
+}
+
+.img-logo {
+  width: 50px;
+  height: 50px;
+}
+
+ion-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #fefefe;
+  padding: 5px;
+}
+
+ion-segment {
+  overflow-x: auto;
+  white-space: nowrap;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+}
+
+ion-segment-button {
+  min-width: auto;
+  padding: 0 10px;
+  text-transform: capitalize;
+  font-size: 12px;
+  
+  ion-label {
+    white-space: nowrap;
+    overflow: visible;
+  }
+}
