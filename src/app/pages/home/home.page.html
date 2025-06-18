@@ -1,45 +1,43 @@
 <ion-header>
-  <ion-toolbar color="danger">
-    <div class="div-header">
-      <img
-        src="../../../assets/icon/favicon.png"
-        alt="pokedex"
-        class="img-logo"
-      />
-      <ion-title style="margin: 0;">Pokédex</ion-title>
+  <ion-toolbar color="danger" class="home-toolbar">
+    <div class="header-content">
+      <img src="../../../assets/icon/favicon.png" alt="pokedex" class="header-logo">
+      <ion-title class="header-title">Pokédex</ion-title>
     </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="pokedex-content" scrollEvents="true" forceOverscroll="true">
+<ion-content class="home-content">
 
   <!-- Filtro por Tipo -->
-  <ion-segment [(ngModel)]="selectedType" (ionChange)="filterByType(selectedType)" scrollable="true">
-    <ion-segment-button value="">Todos</ion-segment-button>
-    <ion-segment-button *ngFor="let type of types" [value]="type.name">
-      {{ type.name | titlecase }}
-    </ion-segment-button>
-  </ion-segment>
+  <div class="filter-section">
+    <ion-segment [(ngModel)]="selectedType" (ionChange)="filterByType(selectedType)" class="type-filter" scrollable="true">
+      <ion-segment-button value="" class="type-all">Todos</ion-segment-button>
+      <ion-segment-button *ngFor="let type of types" [value]="type.name" [class]="'type-' + type.name">
+        {{ type.name | titlecase }}
+      </ion-segment-button>
+    </ion-segment>
+  </div>
 
   <!-- Busca -->
   <ion-searchbar
+    class="pokemon-search"
     placeholder="Buscar Pokémon..."
     [(ngModel)]="searchTerm"
-    (ionInput)="onSearchChange()">
+    (ionInput)="onSearchChange()"
+    animated="true"
+    clearIcon="close-circle">
   </ion-searchbar>
 
   <!-- Grid de Pokémons -->
   <div class="pokemon-grid">
-    <div class="pokemon-card" *ngFor="let pokemon of displayedPokemons" [routerLink]="['/details', pokemon.id]">
-      <img
-        [defaultImage]="'assets/img/placeholder.png'"
-        [lazyLoad]="getPokemonImage(pokemon)"
-        [errorImage]="'assets/img/placeholder.png'"
-        alt="{{ pokemon.name }}"
-      />
-      <div class="pokemon-number">#{{ pokemon.id }}</div>
-      <div class="pokemon-name">{{ pokemon.name | titlecase }}</div>
-    </div>
+    <ion-card class="pokemon-card" *ngFor="let pokemon of displayedPokemons" [routerLink]="['/details', pokemon.id]">
+      <img [src]="getPokemonImage(pokemon)" alt="{{ pokemon.name }}" class="pokemon-image"/>
+      <ion-card-content>
+        <div class="pokemon-number">#{{ pokemon.id | number:'3.0-0' }}</div>
+        <div class="pokemon-name">{{ pokemon.name | titlecase }}</div>
+      </ion-card-content>
+    </ion-card>
   </div>
 
 </ion-content>

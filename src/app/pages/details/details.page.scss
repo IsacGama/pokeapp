@@ -183,3 +183,24 @@ ion-title {
   font-weight: bold;
   color: white;
 }
+
+/* Scroll personalizado */
+ion-content::part(scroll) {
+  scrollbar-width: thin;
+  scrollbar-color: var(--ion-color-danger) #f0f0f0;
+  
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 10px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--ion-color-danger);
+    border-radius: 10px;
+    border: 2px solid #f0f0f0;
+  }
+}
