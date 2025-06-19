@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PokemonService } from 'src/app/services/pokemon.service';
 import { CommonModule } from '@angular/common';
+import { forkJoin } from 'rxjs';
 import { 
   IonContent, 
   IonHeader, 
@@ -11,6 +12,10 @@ import {
   IonBackButton,
   IonIcon,
 } from '@ionic/angular/standalone';
+
+interface AbilityDetails {
+  types?: { type: { name: string } }[];
+}
 
 @Component({
   selector: 'app-details',
@@ -32,7 +37,7 @@ export class DetailsPage implements OnInit {
   pokemon: any;
   pokemonId: string | null = null;
   loading = true;
-  abilitiesWithTypes: any[] = [];
+  abilitiesWithTypes: { name: string; type: string }[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -43,39 +48,43 @@ export class DetailsPage implements OnInit {
     this.pokemonId = this.route.snapshot.paramMap.get('id');
 
     if (this.pokemonId) {
-      this.pokemonService.getPokemonDetails(this.pokemonId).subscribe(async (res) => {
+      this.pokemonService.getPokemonDetails(this.pokemonId).subscribe((res) => {
         this.pokemon = res;
-        
-        // Carrega informações adicionais das habilidades
-        await this.loadAbilitiesDetails();
-        
+        this.loadAbilitiesDetails();
         this.loading = false;
       });
     }
   }
 
-  async loadAbilitiesDetails() {
-    this.abilitiesWithTypes = [];
-    
-    for (const ability of this.pokemon.abilities) {
-      try {
-        const abilityDetails = await this.pokemonService.getAbilityDetails(ability.ability.name).toPromise();
-        
-        // Encontra o tipo principal da habilidade (usando a primeira do array ou padrão)
-        const abilityType = abilityDetails?.types?.[0]?.type?.name || 'normal';
-        
-        this.abilitiesWithTypes.push({
-          name: ability.ability.name,
-          type: abilityType
-        });
-      } catch (error) {
-        console.error('Error loading ability details:', error);
-        this.abilitiesWithTypes.push({
-          name: ability.ability.name,
-          type: 'normal' // Tipo padrão se ocorrer erro
-        });
-      }
+  loadAbilitiesDetails() {
+    if (!this.pokemon?.abilities?.length) {
+      this.abilitiesWithTypes = [];
+      return;
     }
+
+    const abilityRequests = this.pokemon.abilities.map((ability: any) => 
+      this.pokemonService.getAbilityDetails(ability.ability.name)
+    );
+
+    forkJoin<AbilityDetails[]>(abilityRequests).subscribe({
+      next: (results) => {
+        this.abilitiesWithTypes = results.map((abilityDetails, index) => {
+          const abilityName = this.pokemon.abilities[index].ability.name;
+          const abilityType = abilityDetails?.types?.[0]?.type?.name || 'normal';
+          return {
+            name: abilityName,
+            type: abilityType
+          };
+        });
+      },
+      error: (error) => {
+        console.error('Error loading ability details:', error);
+        this.abilitiesWithTypes = this.pokemon.abilities.map((a: any) => ({
+          name: a.ability.name,
+          type: 'normal'
+        }));
+      }
+    });
   }
 
   getPokemonImage() {
@@ -106,7 +115,7 @@ export class DetailsPage implements OnInit {
     return colors[type] || '#777';
   }
 
-    formatStatName(statName: string): string {
+  formatStatName(statName: string): string {
     return statName.replace('-', ' ');
   }
 

@@ -5,8 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { RouterLink } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
-import { IonSegment, IonSegmentButton, IonSearchbar} from '@ionic/angular/standalone';
+import { IonSegment, IonSegmentButton, IonSearchbar, IonCardContent, IonCard, IonContent, IonTitle, IonToolbar, IonHeader} from '@ionic/angular/standalone';
 
 interface PokemonListItem {
   name: string;
@@ -18,14 +17,19 @@ interface PokemonListItem {
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   imports: [
+    IonContent,
     CommonModule, 
     FormsModule, 
     LazyLoadImageModule, 
     RouterLink,
-    IonicModule,
-    IonSegment,
-    IonSegmentButton,
-    IonSearchbar
+    IonSegment, 
+    IonSegmentButton, 
+    IonSearchbar,
+    IonCardContent,
+    IonCard,
+    IonHeader,
+    IonTitle,
+    IonToolbar,
   ],
 })
 export class HomePage implements OnInit {

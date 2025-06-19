@@ -9,8 +9,8 @@ import { AppComponent } from './app/app.component';
 bootstrapApplication(AppComponent, {
   providers: [
     provideHttpClient(),
-    provideIonicAngular(), // Fundamental pra router do Ionic funcionar
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, // ESSENCIAL PRA EVITAR ESSE ERRO!
+    provideIonicAngular(), 
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideRouter(routes, withPreloading(PreloadAllModules)),
   ],
 });

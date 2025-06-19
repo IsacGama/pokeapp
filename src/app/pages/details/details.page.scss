@@ -152,10 +152,12 @@
     .stat-info {
       display: flex;
       justify-content: space-between;
+      gap: 15px;
       margin-bottom: 4px;
+      color: #555; /* Cor mais escura para melhor contraste */
       
       .stat-name {
-        font-weight: 500;
+        font-weight: 700;
         text-transform: capitalize;
       }
       
