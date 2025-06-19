@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { PokemonService } from 'src/app/services/pokemon.service';
-import { Observable, forkJoin, from } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { RouterLink } from '@angular/router';
-import { IonSegment, IonSegmentButton, IonSearchbar, IonCardContent, IonCard, IonContent, IonTitle, IonToolbar, IonHeader} from '@ionic/angular/standalone';
+import { IonSegment, IonSegmentButton, IonSearchbar, IonCardContent, IonCard, IonContent, IonTitle, IonToolbar, IonHeader } from '@ionic/angular/standalone';
 
 interface PokemonListItem {
   name: string;
@@ -16,14 +16,15 @@ interface PokemonListItem {
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
+  standalone: true,
   imports: [
     IonContent,
-    CommonModule, 
-    FormsModule, 
-    LazyLoadImageModule, 
+    CommonModule,
+    FormsModule,
+    LazyLoadImageModule,
     RouterLink,
-    IonSegment, 
-    IonSegmentButton, 
+    IonSegment,
+    IonSegmentButton,
     IonSearchbar,
     IonCardContent,
     IonCard,
@@ -35,10 +36,7 @@ interface PokemonListItem {
 export class HomePage implements OnInit {
   pokemons: any[] = [];
   displayedPokemons: any[] = [];
-  offset = 0;
-  limit = 30;
-  loading = false;
-  allLoaded = false;
+  loading = true;
 
   types: any[] = [{ name: 'All', url: '' }];
   selectedType: string = '';
@@ -48,73 +46,55 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.loadTypes();
-    this.loadPokemons();
+    this.loadAllPokemons();
   }
 
   loadTypes() {
-    this.pokemonService.getPokemonTypes().subscribe((res) => {
+    this.pokemonService.getPokemonTypes().subscribe(res => {
       this.types = res.results;
     });
   }
 
-  loadPokemons() {
-    if (this.loading || this.allLoaded) return;
-    this.loading = true;
-
-    this.pokemonService.getPokemonList(this.offset, this.limit).subscribe((res) => {
-      const pokemonRequests: Observable<any>[] = res.results.map((p: PokemonListItem) =>
-        this.pokemonService.getPokemonDetails(p.name)
-      );
-
-      forkJoin(pokemonRequests).subscribe((details) => {
-        this.pokemons = [...this.pokemons, ...details];
-        this.applyFilters();
-        this.offset += this.limit;
-        this.loading = false;
-
-        // Depois de carregar a primeira página, inicia o carregamento do restante em background
-        if (this.offset === this.limit) {
-          this.loadRemainingPokemonsInBackground();
-        }
-
-        if (res.next === null) {
-          this.allLoaded = true;
-        }
-      });
-    });
-  }
-
-  loadRemainingPokemonsInBackground() {
+  loadAllPokemons() {
     const totalPokemons = 10277;
-    let remainingRequests: Observable<any>[] = [];
-    let currentOffset = this.offset;
+    const batchSize = 100;
+    const requests: Observable<any>[] = [];
 
-    while (currentOffset < totalPokemons) {
-      remainingRequests.push(this.pokemonService.getPokemonList(currentOffset, 100));
-      currentOffset += 100;
+    for (let offset = 0; offset < totalPokemons; offset += batchSize) {
+      requests.push(this.pokemonService.getPokemonList(offset, batchSize));
     }
 
-    forkJoin(remainingRequests).subscribe((responses) => {
-      let allResults: any[] = [];
-      responses.forEach((res: any) => {
-        allResults.push(...res.results);
-      });
+    forkJoin(requests).subscribe({
+      next: responses => {
+        // Junta todos os resultados
+        let allResults: PokemonListItem[] = [];
+        responses.forEach(res => allResults.push(...res.results));
 
-      const validResults = allResults.filter((p: any) => {
-        const id = this.extractIdFromUrl(p.url);
-        return (id >= 1 && id <= 1025) || (id >= 10001 && id <= 10277);
-      });
+        // Filtra pokemons válidos conforme ids
+        const validResults = allResults.filter(p => {
+          const id = this.extractIdFromUrl(p.url);
+          return (id >= 1 && id <= 1025) || (id >= 10001 && id <= 10277);
+        });
 
-      const detailRequests = validResults.map((p) => this.pokemonService.getPokemonDetails(p.name));
+        // Agora pega os detalhes
+        const detailRequests = validResults.map(p => this.pokemonService.getPokemonDetails(p.name));
 
-      forkJoin(detailRequests).subscribe((details) => {
-        const existingIds = new Set(this.pokemons.map(p => p.id));
-        const newPokemons = details.filter(p => !existingIds.has(p.id));
-
-        this.pokemons = [...this.pokemons, ...newPokemons];
-        this.applyFilters();
-        this.allLoaded = true;
-      });
+        forkJoin(detailRequests).subscribe({
+          next: details => {
+            this.pokemons = details;
+            this.applyFilters();
+            this.loading = false;
+          },
+          error: err => {
+            console.error('Erro carregando detalhes dos pokemons', err);
+            this.loading = false;
+          }
+        });
+      },
+      error: err => {
+        console.error('Erro carregando lista de pokemons', err);
+        this.loading = false;
+      }
     });
   }
 
@@ -141,7 +121,7 @@ export class HomePage implements OnInit {
 
     if (this.searchTerm.trim() !== '') {
       const term = this.searchTerm.toLowerCase();
-      filtered = filtered.filter((p) => p.name.toLowerCase().includes(term));
+      filtered = filtered.filter(p => p.name.toLowerCase().includes(term));
     }
 
     this.displayedPokemons = filtered;

@@ -1,45 +1,48 @@
 <ion-header>
   <ion-toolbar color="danger" class="home-toolbar">
     <div class="header-content">
-      <img src="../../../assets/icon/favicon.png" alt="pokedex" class="header-logo">
+      <img src="../../../assets/icon/favicon.png" alt="pokedex" class="header-logo" />
       <ion-title class="header-title">Pokédex</ion-title>
     </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="home-content">
-
-  <!-- Filtro por Tipo -->
-  <div class="filter-section">
-    <ion-segment [(ngModel)]="selectedType" (ionChange)="filterByType(selectedType)" class="type-filter" scrollable="true">
-      <ion-segment-button value="" class="type-all">Todos</ion-segment-button>
-      <ion-segment-button *ngFor="let type of types" [value]="type.name" [class]="'type-' + type.name">
-        {{ type.name | titlecase }}
-      </ion-segment-button>
-    </ion-segment>
+  <div *ngIf="loading" class="loading-container">
+    <img src="../../../assets/Poké_Ball_icon.png" alt="Carregando Pokémons..." class="spinner" />
+    <p>Carregando Pokémons...</p>
   </div>
 
-  <!-- Busca -->
-  <ion-searchbar
-    class="pokemon-search"
-    placeholder="Buscar Pokémon..."
-    [(ngModel)]="searchTerm"
-    (ionInput)="onSearchChange()"
-    animated="true"
-    clearIcon="close-circle">
-  </ion-searchbar>
+  <div *ngIf="!loading">
+    <div class="filter-section">
+      <ion-segment [(ngModel)]="selectedType" (ionChange)="filterByType(selectedType)" class="type-filter" scrollable="true">
+        <ion-segment-button value="" class="type-all">Todos</ion-segment-button>
+        <ion-segment-button *ngFor="let type of types" [value]="type.name" [class]="'type-' + type.name">
+          {{ type.name | titlecase }}
+        </ion-segment-button>
+      </ion-segment>
+    </div>
 
-  <!-- Grid de Pokémons -->
-  <div class="pokemon-grid">
-    <ion-card class="pokemon-card" *ngFor="let pokemon of displayedPokemons">
-      <ion-router-link [routerLink]="['/details', pokemon.id]" routerDirection="forward">
-        <img [src]="getPokemonImage(pokemon)" alt="{{ pokemon.name }}" class="pokemon-image"/>
-        <ion-card-content>
-          <div class="pokemon-number">#{{ pokemon.id | number:'3.0-0' }}</div>
-          <div class="pokemon-name">{{ pokemon.name | titlecase }}</div>
-        </ion-card-content>
-      </ion-router-link>
-    </ion-card>
+    <ion-searchbar
+      class="pokemon-search"
+      placeholder="Buscar Pokémon..."
+      [(ngModel)]="searchTerm"
+      (ionInput)="onSearchChange()"
+      animated="true"
+      clearIcon="close-circle"
+    >
+    </ion-searchbar>
+
+    <div class="pokemon-grid">
+      <ion-card class="pokemon-card" *ngFor="let pokemon of displayedPokemons">
+        <ion-router-link [routerLink]="['/details', pokemon.id]" routerDirection="forward">
+          <img [src]="getPokemonImage(pokemon)" alt="{{ pokemon.name }}" class="pokemon-image" />
+          <ion-card-content>
+            <div class="pokemon-number">#{{ pokemon.id | number: '3.0-0' }}</div>
+            <div class="pokemon-name">{{ pokemon.name | titlecase }}</div>
+          </ion-card-content>
+        </ion-router-link>
+      </ion-card>
+    </div>
   </div>
-
 </ion-content>
