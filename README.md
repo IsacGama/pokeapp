@@ -16,16 +16,6 @@ Uma Pokédex moderna feita com **Angular Standalone Components** e **Ionic Frame
 
 ---
 
-## 📸 Screenshots
-
-| Home com Filtro por Tipo | Busca por Nome | Página de Detalhes |
-|--------------------------|----------------|--------------------|
-| ![Home](./screenshots/home.png) | ![Search](./screenshots/search.png) | ![Details](./screenshots/details.png) |
-
-*(Se quiser, tu mesmo tira os prints e salva numa pastinha `screenshots` dentro do projeto, viu?)*
-
----
-
 ## 🎯 Funcionalidades
 
 ✅ Listagem de todos os Pokémons (geração dinâmica de +1000 pokémons)  
